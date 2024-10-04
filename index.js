@@ -46,8 +46,8 @@ const Users = mongoose.model('Users', {
 
 //Creating endpoint for registering the user
 app.post('/signup', async (req, res) => {
-   let check = await Users.findOne({email: req.body.email}); 
-   if(check) {
+   let existingUser = await Users.findOne({email: req.body.email}); 
+   if(existingUser) {
     return res.status(400).json({success: false, error: 'existing user found with same email address'})
    }
    let cart = {};
@@ -106,7 +106,7 @@ app.post("/login", async (req, res) => {
 })
 
 
-//Image Storage Engine
+/* //Image Storage Engine
 const storage = multer.diskStorage({                                    
     destination: './upload/images',
     filename: (req, file, cb)=> {
@@ -123,7 +123,7 @@ app.post("/upload", upload.single('product'), (req, res) => {
     success: 1,
     image_url: `http://localhost:${port}/images/${req.file.filename}`
    })
-}); 
+}); */ 
 
 
 //Schema for creating products
@@ -164,7 +164,7 @@ const Product = mongoose.model("Product", {
 
 
 //API for adding product to database
- app.post('/addproduct', async (req, res) => { 
+ app.post("/addproduct", async (req, res) => { 
   let products = await Product.find({}); 
   let id; 
   if(products.length > 0) { 
@@ -194,7 +194,7 @@ const Product = mongoose.model("Product", {
 
 
 //API for deleting products
- app.post('/removeproduct', async (req, res) => {   
+ app.post("/removeproduct", async (req, res) => {   
     await Product.findOneAndDelete({id: req.body.id});
     console.log("Removed");
     res.json({
@@ -205,7 +205,7 @@ const Product = mongoose.model("Product", {
 
 
 //Creating endpoint for new collection data
- app.get('/newcollection', async (req, res) => {
+ app.get("/newcollection", async (req, res) => {
     const products = await Product.find({});
     const newCollection = products.slice(1, 4).concat(products.slice(13, 16)).concat(products.slice(23, 25))
     console.log("New collection fetched");
