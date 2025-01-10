@@ -41,34 +41,38 @@ import { Users } from "./models.js";
     }
 
     const login =  async (req, res) => {
+        console.log("email: ", req.body.email) /////
+        console.log("pass: ", req.body.password) /////
         try{
-        let user = await Users.findOne({email: req.body.email});
-        if( user ) {
-          const passCompare = req.body.password === user.password;
-          if( passCompare ) {
-              const data = {
-                  user: {id: user.id}
-              };
-              const token = jwt.sign(data, "secret_ecom");
-              res.json({
-                  success: true, 
-                  token
-              });
-          } else {
-              res.json({
-                  success: false,
-                  error: "Wrong password"})
-          }
-        } else {
-          res.json({
-              succes: false,
-              error: "Such user doesn't exist. You need to sign up" });
-        }
-    }catch(err) {
-        console.log(err);
-        res.json({message: "Something went wrong"})
-    }     
-  }
+            let user = await Users.findOne({email: req.body.email});
+            console.log(user)
+            if( user ) {
+            const passCompare = req.body.password === user.password;
+            console.log(req.body.password)
+            if( passCompare ) {
+                const data = {
+                    user: {id: user.id}
+                };
+                const token = jwt.sign(data, "secret_ecom");
+                res.json({
+                    success: true, 
+                    token
+                });
+            } else {
+                res.json({
+                    success: false,
+                    error: "Wrong password"})
+            }
+            } else {
+            res.json({
+                success: false,
+                error: "Such user doesn't exist. You need to sign up" });
+            }
+        }catch(err) {
+           console.log(err);
+           res.json({message: "Something went wrong"})
+        }     
+    };
   
   const removeProduct = async (req, res) => {  
     try{

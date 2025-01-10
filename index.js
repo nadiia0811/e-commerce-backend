@@ -26,7 +26,7 @@ app.get("/", (req, res) =>{
     res.send("Express App is running");
 });
 
-app.use("/sigup", signupRoute)
+app.use("/signup", signupRoute)
 app.use("/login", loginRoute);
 app.use("/removefromcart", removeProductRoute);
 app.use("/addtocart", addToCartRoute);
@@ -69,8 +69,8 @@ app.use("/getcart", getCartRoute);
 
 app.listen(port, (error) => {
     if(!error) {
-        console.log("Server running on port: " + port);
+        console.log("Server is running on port: " + port);
     } else {
-        console.log("Error" + error);
+        console.log("Error: " + error);
     }
 });
