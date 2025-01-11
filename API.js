@@ -16,11 +16,12 @@ import jwt from 'jsonwebtoken';
             }
          
             const user = new Users({
-             name: req.body.username,
-             email: req.body.email,
-             password: req.body.password,
-             cartData: cart,
+              name: req.body.username,
+              email: req.body.email,
+              password: req.body.password,
+              cartData: cart,
             });
+            console.log("new user: ", user)
          
             await user.save();
          
@@ -31,7 +32,7 @@ import jwt from 'jsonwebtoken';
             };
             
             const token = jwt.sign(data, "secret_ecom");
-            res.json({
+            return res.json({
              success: true,
              token
             });
@@ -40,7 +41,7 @@ import jwt from 'jsonwebtoken';
             console.log(error);
             res.status(500).json({message: "Something went wrong"});
         }
-    }
+    };
 
     const login =  async (req, res) => {
 

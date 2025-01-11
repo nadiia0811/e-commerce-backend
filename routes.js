@@ -24,7 +24,7 @@ export const loginRoute = express.Router();
 loginRoute.post("/", API.login);
 
 export const removeProductRoute = express.Router();
-removeProductRoute.post("/", fetchUser, API.removeProduct);/// not checked
+removeProductRoute.post("/", fetchUser, API.removeProduct);
 
 export const getCartRoute = express.Router();
 getCartRoute.post("/", fetchUser, API.getCart);

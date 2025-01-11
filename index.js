@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
-import { Users, Product } from "./models.js";
+import { Product } from "./models.js";
 import { signupRoute, 
          loginRoute, 
          removeProductRoute,
