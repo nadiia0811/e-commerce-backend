@@ -1,4 +1,6 @@
 import { Users } from "./models.js";
+import jwt from 'jsonwebtoken';
+
 
 
     const signup = async (req, res) => {
@@ -27,7 +29,7 @@ import { Users } from "./models.js";
                  id: user.id
               }
             };
-         
+            
             const token = jwt.sign(data, "secret_ecom");
             res.json({
              success: true,
@@ -41,36 +43,33 @@ import { Users } from "./models.js";
     }
 
     const login =  async (req, res) => {
-        console.log("email: ", req.body.email) /////
-        console.log("pass: ", req.body.password) /////
+
         try{
             let user = await Users.findOne({email: req.body.email});
-            console.log(user)
-            if( user ) {
-            const passCompare = req.body.password === user.password;
-            console.log(req.body.password)
-            if( passCompare ) {
-                const data = {
-                    user: {id: user.id}
-                };
-                const token = jwt.sign(data, "secret_ecom");
-                res.json({
+            if ( user ) {
+               const passCompare = req.body.password === user.password;
+               if( passCompare ) {
+                  const data = {
+                    user: {id: user.id}  
+                  }
+                  const token = jwt.sign(data, "secret_ecom");  
+                  return res.json({
                     success: true, 
                     token
                 });
             } else {
-                res.json({
-                    success: false,
-                    error: "Wrong password"})
+               return res.status(401).json({
+                      success: false,
+                      error: "Wrong password"})
             }
             } else {
-            res.json({
+           return res.status(404).json({
                 success: false,
                 error: "Such user doesn't exist. You need to sign up" });
             }
-        }catch(err) {
+        } catch (err) {
            console.log(err);
-           res.json({message: "Something went wrong"})
+           return res.status(500).json({message: "Something went wrong"})
         }     
     };
   
